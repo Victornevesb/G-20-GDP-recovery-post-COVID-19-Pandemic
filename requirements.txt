@@ -1,5 +1,10 @@
 
-streamlit
-matplotlib
 pandas
+matplotlib
+numpy
+geopandas
 plotly
+chart-studio
+seaborn
+dash
+scikit-learn

@@ -63,7 +63,7 @@ if section == 'Population Data':
         locationmode='country names',
         color='2023 Population',
         hover_name='Country Name',
-        color_continuous_scale=px.colors.sequential.Plasma,
+        color_continuous_scale=px.colors.sequential.Rainbow,
         title='G20 Countries Population in 2023'
     )
 

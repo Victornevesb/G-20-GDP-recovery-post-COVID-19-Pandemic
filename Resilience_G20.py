@@ -70,26 +70,31 @@ elif section == 'GDP Growth Data':
     st.pyplot(plt)
 
 # Section: GDP Data
-g20_countries = [
-    'Argentina', 'Australia', 'Brazil', 'Canada', 'France', 'China', 'Germany', 
-    'India', 'Indonesia', 'Italy', 'Japan', 'Mexico', 'Russia', 'Saudi Arabia', 
-    'South Africa', 'South Korea', 'Turkey', 'United Kingdom', 'United States'
-]
-
-# Create a DataFrame for G20 countries to ensure all are present
-g20_df = pd.DataFrame({'Country Name': g20_countries})
-
-# Merge the GDP data with the G20 countries list, using a left join to include all countries
-gdp_data_full = g20_df.merge(gdp_data, on='Country Name', how='left')
-
-# Fill missing GDP data with 0 or NaN as appropriate
-gdp_data_full[gdp_years[-1]] = gdp_data_full[gdp_years[-1]].fillna(0)
 
 elif section == 'GDP Data':
     st.header("G20 GDP Data (in USD Trillions)")
     st.write("This section displays the GDP data for G20 countries in USD trillions.")
     st.dataframe(gdp_data)
 
+g20_countries = [
+        'Argentina', 'Australia', 'Brazil', 'Canada', 'France', 'China', 'Germany', 
+        'India', 'Indonesia', 'Italy', 'Japan', 'Mexico', 'Russia', 'Saudi Arabia', 
+        'South Africa', 'South Korea', 'Turkey', 'United Kingdom', 'United States'
+    ]
+
+    # Create a DataFrame for G20 countries to ensure all are present
+    g20_df = pd.DataFrame({'Country Name': g20_countries})
+
+    # Merge the GDP data with the G20 countries list, using a left join to include all countries
+    gdp_data_full = g20_df.merge(gdp_data, on='Country Name', how='left')
+
+    # Fill missing GDP data with 0 or NaN as appropriate
+    gdp_years = [col for col in gdp_data.columns if '(GDP in USD Trillions)' in col]
+    gdp_data_full[gdp_years[-1]] = gdp_data_full[gdp_years[-1]].fillna(0)
+
+    # Display the GDP data in a dataframe
+    st.dataframe(gdp_data_full)
+    
     # Plot the choropleth map using Plotly Express
     gdp_years = [col for col in gdp_data.columns if '(GDP in USD Trillions)' in col]
     fig = px.choropleth(

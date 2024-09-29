@@ -108,7 +108,6 @@ elif section == 'GDP Growth Data':
 
     st.pyplot(plt)
 
-
     # Choropleth map for the most recent GDP growth (2023)
     latest_growth_data = growth_data_g20[['Country Name', '2023']].copy()
     latest_growth_data.columns = ['Country Name', 'GDP Growth 2023']  # Rename for clarity
@@ -233,6 +232,27 @@ elif section == 'COVID-19 Data':
         }
     )
 
+
+     fig_cases_map = px.choropleth(
+        current_data,
+        locations='Country',
+        locationmode='country names',
+        color='Confirmed',
+        animation_frame='Date',
+        hover_name='Country',
+        color_continuous_scale=px.colors.sequential.Oranges,
+        title='Choropleth Map of Confirmed COVID-19 Cases Over Time'
+    )
+
+    # Adjust the layout of the figure
+    fig_cases_map.update_layout(
+        width=1000,  # Set the width of the plot
+        height=600   # Set the height of the plot
+    )
+
+    # Display the animated map in Streamlit
+    st.plotly_chart(fig_cases_map)
+
     # Update layout for the deaths plot
     fig_deaths.update_layout(
         xaxis_title='Date',
@@ -246,7 +266,7 @@ elif section == 'COVID-19 Data':
     # Display the deaths plot
     st.plotly_chart(fig_deaths)
 
-    
+        
 # Section: Resilience Index
 elif section == 'Resilience Index':
     st.header("Resilience Index for G20 Countries")

@@ -76,7 +76,7 @@ elif section == 'GDP Data':
     st.write("This section displays the GDP data for G20 countries in USD trillions.")
     st.dataframe(gdp_data)
 
-g20_countries = [
+    g20_countries = [
         'Argentina', 'Australia', 'Brazil', 'Canada', 'France', 'China', 'Germany', 
         'India', 'Indonesia', 'Italy', 'Japan', 'Mexico', 'Russia', 'Saudi Arabia', 
         'South Africa', 'South Korea', 'Turkey', 'United Kingdom', 'United States'

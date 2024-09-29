@@ -70,27 +70,15 @@ elif section == 'GDP Growth Data':
     st.pyplot(plt)
 
 # Section: GDP Data
-g20_countries = [
-    'Argentina', 'Australia', 'Brazil', 'Canada', 'France', 'China', 'Germany', 
-    'India', 'Indonesia', 'Italy', 'Japan', 'Mexico', 'Russia', 'Saudi Arabia', 
-    'South Africa', 'South Korea', 'Turkey', 'United Kingdom', 'United States'
-]
-# Make sure all G20 countries are present in the data
-gdp_data_full = pd.DataFrame({'Country Name': g20_countries}).merge(gdp_data, on='Country Name', how='left')
-
-# Fill missing GDP values with 0 or another placeholder value
-gdp_data_full[gdp_years[-1]] = gdp_data_full[gdp_years[-1]].fillna(0)
-
-# Section: GDP Data
 elif section == 'GDP Data':
     st.header("G20 GDP Data (in USD Trillions)")
     st.write("This section displays the GDP data for G20 countries in USD trillions.")
-    st.dataframe(gdp_data_full)
+    st.dataframe(gdp_data)
 
     # Plot the choropleth map using Plotly Express
     gdp_years = [col for col in gdp_data.columns if '(GDP in USD Trillions)' in col]
     fig = px.choropleth(
-        gdp_data_full,
+        gdp_data,
         locations='Country Name',
         locationmode='country names',
         color=gdp_years[-1],  # Use the most recent year for coloring
@@ -104,9 +92,6 @@ elif section == 'GDP Data':
         width=1000,  # Set the width of the plot
         height=600   # Set the height of the plot
     )
-
-    # Display the map
-    st.plotly_chart(fig)
 
 
 # Section: COVID-19 Data

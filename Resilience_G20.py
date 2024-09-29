@@ -71,18 +71,6 @@ elif section == 'GDP Growth Data':
 
 # Section: GDP Data
 
-g20_countries = [
-    'Argentina', 'Australia', 'Brazil', 'Canada', 'France', 'China', 'Germany', 
-    'India', 'Indonesia', 'Italy', 'Japan', 'Mexico', 'Russia', 'Saudi Arabia', 
-    'South Africa', 'South Korea', 'Turkey', 'United Kingdom', 'United States'
-]
-
-# Make sure all G20 countries are present in the data
-gdp_data = pd.DataFrame({'Country Name': g20_countries}).merge(gdp_data, on='Country Name', how='left')
-
-# Fill missing GDP values with 0 or another placeholder value
-gdp_data[gdp_years[-1]] = gdp_data[gdp_years[-1]].fillna(0)
-
 elif section == 'GDP Data':
     st.header("G20 GDP Data (in USD Trillions)")
     st.write("This section displays the GDP data for G20 countries in USD trillions.")
@@ -99,7 +87,17 @@ elif section == 'GDP Data':
         color_continuous_scale=px.colors.sequential.Rainbow,
         title=f'G20 Countries GDP in {gdp_years[-1]}'
     )
+g20_countries = [
+    'Argentina', 'Australia', 'Brazil', 'Canada', 'France', 'China', 'Germany', 
+    'India', 'Indonesia', 'Italy', 'Japan', 'Mexico', 'Russia', 'Saudi Arabia', 
+    'South Africa', 'South Korea', 'Turkey', 'United Kingdom', 'United States'
+]
 
+# Make sure all G20 countries are present in the data
+gdp_data = pd.DataFrame({'Country Name': g20_countries}).merge(gdp_data, on='Country Name', how='left')
+
+# Fill missing GDP values with 0 or another placeholder value
+gdp_data[gdp_years[-1]] = gdp_data[gdp_years[-1]].fillna(0)
     # Adjust the layout of the figure
     fig.update_layout(
         width=1000,  # Set the width of the plot

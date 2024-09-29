@@ -323,6 +323,16 @@ elif section == 'Resilience Index':
     # Rename the columns in the dataframe
     merged_df.rename(columns=grade_columns_map, inplace=True)
 
+    st.write("Columns after renaming:", merged_df.columns)
+
+# Ensure that the new columns are used for summing
+    try:
+        merged_df['Total Grade'] = merged_df[list(grade_columns_map.values())].sum(axis=1)
+    except KeyError as e:
+        st.error(f"KeyError: {e}")
+        st.write("Available columns in merged_df:", merged_df.columns)
+
+    
 # Add Total Grade using the new column names
     merged_df['Total Grade'] = merged_df[list(grade_columns_map.values())].sum(axis=1)
 

@@ -3,6 +3,9 @@
 
 This is the Final Project for a Data Science Bootcamp at Concordia University. It is an EDA (Exploratory Data Analysis) project analyzing various GDP databases from G-20 countries and their recovery from the COVID-19 Pandemic recession.
 
+## Link to Streamlit
+https://g-20-gdp-recovery-post-covid-19-pandemic-auqw94wadpqqvsqn2naeb.streamlit.app/
+
 ## Project Overview
 This project analyzes the GDP resilience of G-20 countries in the aftermath of the COVID-19 pandemic. The analysis focuses on GDP data, including GDP Growth, GDP per capita, and nominal GDP trends from 2014 to 2023. Visualizations, including choropleth maps, are used to evaluate these trends and understand the economic recovery across nations.
 

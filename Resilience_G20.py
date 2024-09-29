@@ -164,42 +164,65 @@ elif section == 'COVID-19 Data':
     # Deaths Data
     st.subheader("COVID-19 Deaths Data")
     st.dataframe(covid_deaths_data)
-  
 
-    # Melt the data for easier plotting with Plotly
-    confirmed_melted = covid_confirmed_data.reset_index().melt(id_vars='Country/Region', var_name='Date', value_name='Cases')
+    onfirmed_melted = covid_confirmed_data.reset_index().melt(id_vars='Country/Region', var_name='Date', value_name='Cases')
     deaths_melted = covid_deaths_data.reset_index().melt(id_vars='Country/Region', var_name='Date', value_name='Deaths')
 
-    # Merge both datasets for combined plotting
-    combined_data = pd.merge(confirmed_melted, deaths_melted, on=['Country/Region', 'Date'])
-
-    # Plot using Plotly Express
-    fig = px.line(
-        combined_data,
+    # Plot for Confirmed Cases
+    fig_cases = px.line(
+        confirmed_melted,
         x='Date',
-        y=['Cases', 'Deaths'],
+        y='Cases',
         color='Country/Region',
-        title='COVID-19 Cases and Deaths in G20 Countries',
+        title='COVID-19 Confirmed Cases in G20 Countries',
         labels={
-            'value': 'Count',
+            'Cases': 'Number of Cases',
             'Date': 'Date',
-            'Country/Region': 'Country',
-            'variable': 'Metric'
+            'Country/Region': 'Country'
         }
     )
 
-    # Update layout for better readability
-    fig.update_layout(
+    # Update layout for the cases plot
+    fig_cases.update_layout(
         xaxis_title='Date',
-        yaxis_title='Count',
+        yaxis_title='Number of Cases',
         width=1000,
         height=600,
         legend_title="Country/Region",
         legend=dict(x=1, y=1)
     )
 
-    st.plotly_chart(fig)
+    # Display the cases plot
+    st.plotly_chart(fig_cases)
 
+    # Plot for Deaths
+    fig_deaths = px.line(
+        deaths_melted,
+        x='Date',
+        y='Deaths',
+        color='Country/Region',
+        title='COVID-19 Deaths in G20 Countries',
+        labels={
+            'Deaths': 'Number of Deaths',
+            'Date': 'Date',
+            'Country/Region': 'Country'
+        }
+    )
+
+    # Update layout for the deaths plot
+    fig_deaths.update_layout(
+        xaxis_title='Date',
+        yaxis_title='Number of Deaths',
+        width=1000,
+        height=600,
+        legend_title="Country/Region",
+        legend=dict(x=1, y=1)
+    )
+
+    # Display the deaths plot
+    st.plotly_chart(fig_deaths)
+
+    
 # Section: Resilience Index
 elif section == 'Resilience Index':
     st.header("Resilience Index for G20 Countries")

@@ -39,6 +39,43 @@ if section == 'Population Data':
     st.write("This section displays the population data for G20 countries.")
     st.dataframe(g20_population_data)
 
+    # Population data for 2023
+    population_data_2023 = {
+        'Country Name': [
+            'Argentina', 'Australia', 'Brazil', 'Canada', 'China', 'Germany', 'France',
+            'United Kingdom', 'Indonesia', 'India', 'Italy', 'Japan', 'South Korea', 
+            'Mexico', 'Russia', 'Saudi Arabia', 'Turkey', 'United States', 'South Africa'
+        ],
+        '2023 Population': [
+            46654581, 26638544, 216422446, 40097761, 1410710000, 84482267, 68170228,
+            68350000, 277534122, 1428627663, 58761146, 124516650, 51712619, 
+            128455567, 143826130, 36947025, 85326000, 334914895, 60414495
+        ]
+    }
+
+    # Convert the dictionary into a DataFrame
+    population_df_2023 = pd.DataFrame(population_data_2023)
+
+    # Plot the choropleth map using Plotly Express
+    fig = px.choropleth(
+        population_df_2023,
+        locations='Country Name',
+        locationmode='country names',
+        color='2023 Population',
+        hover_name='Country Name',
+        color_continuous_scale=px.colors.sequential.Plasma,
+        title='G20 Countries Population in 2023'
+    )
+
+    # Adjust the layout of the figure
+    fig.update_layout(
+        width=1000,  # Set the width of the plot
+        height=600   # Set the height of the plot
+    )
+
+    # Display the map
+    fig.show()
+
     
     
 # Section: GDP Growth Data

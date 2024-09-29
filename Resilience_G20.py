@@ -166,6 +166,29 @@ elif section == 'COVID-19 Data':
     st.dataframe(covid_deaths_data)
   
 
+    # Plot both cases and deaths for each country
+    countries = covid_confirmed_data.index.tolist()  # List of countries/regions
+    months = covid_confirmed_data.columns.tolist()   # List of months/dates
+
+    fig, ax = plt.subplots(figsize=(12, 6))
+
+    # Plotting cases
+    for country in countries:
+        ax.plot(months, covid_confirmed_data.loc[country], label=f'{country} Cases')
+
+    # Plotting deaths
+    for country in countries:
+        ax.plot(months, covid_deaths_data.loc[country], label=f'{country} Deaths', linestyle='--')
+
+    ax.set_xlabel("Date")
+    ax.set_ylabel("Number of Cases/Deaths")
+    ax.set_title("COVID-19 Cases and Deaths Over Time in G20 Countries")
+    ax.legend(bbox_to_anchor=(1.05, 1), loc='upper left')
+    plt.xticks(rotation=45)
+    plt.tight_layout()
+
+    st.pyplot(fig)
+
 # Section: Resilience Index
 elif section == 'Resilience Index':
     st.header("Resilience Index for G20 Countries")

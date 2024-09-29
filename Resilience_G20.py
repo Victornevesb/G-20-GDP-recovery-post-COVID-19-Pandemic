@@ -74,7 +74,6 @@ elif section == 'GDP Growth Data':
 elif section == 'GDP Data':
     st.header("G20 GDP Data (in USD Trillions)")
     st.write("This section displays the GDP data for G20 countries in USD trillions.")
-    st.dataframe(gdp_data)
 
     g20_countries = [
         'Argentina', 'Australia', 'Brazil', 'Canada', 'France', 'China', 'Germany', 
@@ -96,9 +95,9 @@ elif section == 'GDP Data':
     st.dataframe(gdp_data_full)
     
     # Plot the choropleth map using Plotly Express
-    gdp_years = [col for col in gdp_data.columns if '(GDP in USD Trillions)' in col]
+    gdp_years = [col for col in gdp_data_full.columns if '(GDP in USD Trillions)' in col]
     fig = px.choropleth(
-        gdp_data,
+        gdp_data_full,
         locations='Country Name',
         locationmode='country names',
         color=gdp_years[-1],  # Use the most recent year for coloring

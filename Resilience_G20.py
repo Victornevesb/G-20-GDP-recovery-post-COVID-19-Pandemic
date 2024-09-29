@@ -164,31 +164,6 @@ elif section == 'COVID-19 Data':
     st.subheader("COVID-19 Deaths Data")
     st.dataframe(covid_deaths_data)
   
-# Load the COVID-19 data
-
-# Ensure 'Date' column is in datetime format for proper animation
-    current_data['Date'] = pd.to_datetime(current_data['Date'])
-
-# Plot the choropleth map using Plotly Express
-    fig = px.choropleth(
-        current_data,
-        locations='Country',
-        locationmode='country names',
-        color='Confirmed',  # The data to be visualized (e.g., Confirmed cases)
-        animation_frame='Date',  # The column for animation (date over time)
-        hover_name='Country',  # Hover text for each country
-        color_continuous_scale=px.colors.sequential.OrRd,  # Color scale for confirmed cases
-        title='Choropleth Map of Confirmed Cases - till today'
-    )
-
-# Adjust the layout of the figure
-    fig.update_layout(
-        width=1000,  # Set the width of the plot
-        height=600   # Set the height of the plot
-    )
-
-# Show the map
-    fig.show()
 
 # Section: Resilience Index
 elif section == 'Resilience Index':

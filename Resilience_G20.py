@@ -71,7 +71,7 @@ elif section == 'GDP Growth Data':
 
 # Section: GDP Data
 elif section == 'GDP Data':
-    st.("G20 GDP Data (in USD Trillions)")
+    st.header("G20 GDP Data (in USD Trillions)")
     st.write("This section displays the GDP data for G20 countries in USD trillions.")
     st.dataframe(gdp_data)
 

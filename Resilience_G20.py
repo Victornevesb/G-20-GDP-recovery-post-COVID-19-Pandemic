@@ -108,6 +108,55 @@ elif section == 'GDP Growth Data':
 
     st.pyplot(plt)
 
+    # GDP Growth Line Chart
+    years = list(range(2014, 2024))
+    x_ticks_positions = list(range(len(years)))  # Positions for 10 years (0 to 9)
+    x_ticks_labels = [str(year) for year in years]  # Labels from 2014 to 2023
+
+    plt.figure(figsize=(12, 6))
+    for country in growth_data_g20['Country Name']:
+        plt.plot(
+            x_ticks_positions,
+            growth_data_g20[growth_data_g20['Country Name'] == country][[str(year) for year in years]].values.flatten(),
+            label=country
+        )
+
+    plt.xticks(x_ticks_positions, x_ticks_labels)
+    plt.axvline(x=6, color='red', linestyle='--', label='Beginning of Pandemic (2020)')
+    plt.text(6, plt.ylim()[1] * 0.9, 'Beginning of Pandemic', color='red', ha='center')
+    plt.title('GDP Growth for G20 Countries (2014-2023)')
+    plt.xlabel('Year')
+    plt.ylabel('GDP Growth (% per year)')
+    plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left')
+    plt.tight_layout()
+
+    st.pyplot(plt)
+
+    # Choropleth map for the most recent GDP growth (2023)
+    latest_growth_data = growth_data_g20[['Country Name', '2023']].copy()
+    latest_growth_data.columns = ['Country Name', 'GDP Growth 2023']  # Rename for clarity
+
+    # Plot the choropleth map using Plotly Express
+    fig_growth_map = px.choropleth(
+        latest_growth_data,
+        locations='Country Name',
+        locationmode='country names',
+        color='GDP Growth 2023',
+        hover_name='Country Name',
+        color_continuous_scale=px.colors.sequential.Blues,
+        title='GDP Growth for G20 Countries in 2023'
+    )
+
+    # Adjust the layout of the figure
+    fig_growth_map.update_layout(
+        width=1000,  # Set the width of the plot
+        height=600,  # Set the height of the plot
+        geo=dict(showframe=False, showcoastlines=False)
+    )
+
+    # Display the choropleth map in Streamlit
+    st.plotly_chart(fig_growth_map)
+
 # Section: GDP Data
 
 elif section == 'GDP Data':

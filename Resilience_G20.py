@@ -75,19 +75,6 @@ g20_countries = [
     'India', 'Indonesia', 'Italy', 'Japan', 'Mexico', 'Russia', 'Saudi Arabia', 
     'South Africa', 'South Korea', 'Turkey', 'United Kingdom', 'United States'
 ]
-
-# Make sure all G20 countries are present in the data
-gdp_data_full = pd.DataFrame({'Country Name': g20_countries}).merge(gdp_data, on='Country Name', how='left')
-
-# Fill missing GDP values with 0 or another placeholder value
-gdp_data_full[gdp_years[-1]] = gdp_data_full[gdp_years[-1]].fillna(0)
-
-# Section: GDP Data
-g20_countries = [
-    'Argentina', 'Australia', 'Brazil', 'Canada', 'France', 'China', 'Germany', 
-    'India', 'Indonesia', 'Italy', 'Japan', 'Mexico', 'Russia', 'Saudi Arabia', 
-    'South Africa', 'South Korea', 'Turkey', 'United Kingdom', 'United States'
-]
 # Make sure all G20 countries are present in the data
 gdp_data_full = pd.DataFrame({'Country Name': g20_countries}).merge(gdp_data, on='Country Name', how='left')
 

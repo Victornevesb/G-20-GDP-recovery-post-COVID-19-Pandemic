@@ -322,31 +322,32 @@ elif section == 'Resilience Index':
 
     # Rename the columns in the dataframe
     merged_df.rename(columns=grade_columns_map, inplace=True)
-    
-    # Summing all grades for each country
-    merged_df['Total Grade'] = merged_df[['Grade_1', 'Grade_2', 'Grade_3', 'Grade_4', 'Grade_5', 'Grade_6']].sum(axis=1)
-    
-    
-    # Streamlit App Layout
+
+# Add Total Grade using the new column names
+    merged_df['Total Grade'] = merged_df[list(grade_columns_map.values())].sum(axis=1)
+
+# Streamlit App Layout
     st.title("Country Grade Dashboard")
 
-    # Sidebar for Navigation
+# Sidebar for Navigation
     st.sidebar.title("Select Country and Grade")
 
-    # Dropdown for selecting country
+# Dropdown for selecting country
     selected_country = st.sidebar.selectbox("Select Country", merged_df['Country Name'].unique())
 
-    # Slider for selecting grade datasets
+# Slider for selecting grade datasets
     selected_grade = st.sidebar.slider("Select Number of Grades", 1, 6, 6)
 
-    # Display Grade trends
+# Get the subset of the column names based on the number of grades selected
+    selected_grade_columns = list(grade_columns_map.values())[:selected_grade]
+
+# Display Grade trends
     st.subheader(f"Grades Trend for {selected_country}")
     country_data = merged_df[merged_df['Country Name'] == selected_country]
-    grades = country_data.iloc[0, 1:selected_grade+1].values
-    grade_labels = [f'Grade {i}' for i in range(1, selected_grade+1)]
+    grades = country_data[selected_grade_columns].values.flatten()
 
     trace = go.Scatter(
-        x=grade_labels,
+        x=selected_grade_columns,
         y=grades,
         mode='lines+markers',
         name=selected_country
@@ -364,10 +365,10 @@ elif section == 'Resilience Index':
 
     st.plotly_chart(fig_grade_trend)
 
-    # Display Total Grade comparison
+# Display Total Grade comparison
     st.subheader("Total Resilience Comparison Across Countries")
-    total_grades = merged_df[['Country Name'] + [f'Grade_{i}' for i in range(1, selected_grade+1)]]
-    total_grades['Total'] = total_grades.iloc[:, 1:].sum(axis=1)
+    total_grades = merged_df[['Country Name'] + selected_grade_columns]
+    total_grades['Total'] = total_grades[selected_grade_columns].sum(axis=1)
     total_grades = total_grades.sort_values(by='Total', ascending=False)
 
     trace_total = go.Bar(
@@ -386,8 +387,8 @@ elif section == 'Resilience Index':
         )
     }
 
-    st.plotly_chart(fig_grade_trend)
-
+    st.plotly_chart(fig_total_grade)
+    
     
     # Heatmap
     plt.figure(figsize=(12, 6))

@@ -163,10 +163,6 @@ elif section == 'COVID-19 Data':
     # Deaths Data
     st.subheader("COVID-19 Deaths Data")
     st.dataframe(covid_deaths_data)
-import matplotlib.pyplot as plt
-import pandas as pd
-import seaborn as sns
-
 
     key_dates = ['2020-01-31', '2020-06-30', '2021-06-30', '2022-06-30', '2023-01-31']
 

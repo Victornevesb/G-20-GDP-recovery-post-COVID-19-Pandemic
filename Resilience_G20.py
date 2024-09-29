@@ -283,12 +283,12 @@ elif section == 'Resilience Index':
         'Grade': [20, 30, 20, 30, 100, 40, 30, 40, 30, 100, 40, 40, 40, 40, 30, 20, 20, 30, 20]
     }
 
-data5 = {
-    'Country Name': ['Argentina', 'Australia', 'Brazil', 'Canada', 'China', 'Germany', 'France', 'United Kingdom', 
-                     'Indonesia', 'India', 'Italy', 'Japan', 'South Korea', 'Mexico', 'Russia', 'Saudi Arabia', 
-                     'Turkey', 'United States', 'South Africa'],
-    'Grade': [40, 60, 40, 40, 100, 40, 40, 40, 60, 80, 40, 60, 60, 40, 40, 80, 40, 40, 40]
-}
+    data5 = {
+        'Country Name': ['Argentina', 'Australia', 'Brazil', 'Canada', 'China', 'Germany', 'France', 'United Kingdom', 
+                         'Indonesia', 'India', 'Italy', 'Japan', 'South Korea', 'Mexico', 'Russia', 'Saudi Arabia', 
+                         'Turkey', 'United States', 'South Africa'],
+        'Grade': [40, 60, 40, 40, 100, 40, 40, 40, 60, 80, 40, 60, 60, 40, 40, 80, 40, 40, 40]
+    }
 
     data6 = {
         'Country Name': ['Argentina', 'Australia', 'Brazil', 'Canada', 'China', 'Germany', 'France', 'United Kingdom', 

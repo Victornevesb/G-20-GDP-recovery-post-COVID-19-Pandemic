@@ -128,7 +128,7 @@ elif section == 'GDP Growth Data':
     fig_growth_map.update_layout(
         width=1000,  # Set the width of the plot
         height=600,  # Set the height of the plot
-
+    )
     # Display the choropleth map in Streamlit
     st.plotly_chart(fig_growth_map)
 

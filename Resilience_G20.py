@@ -311,7 +311,7 @@ elif section == 'Resilience Index':
         .merge(df6, on='Country Name', suffixes=('_7', '_8'))
 
     # Renaming the columns correctly
-     grade_columns_map = {
+    grade_columns_map = {
     'Grade_1': "Nominal GDP",
     'Grade_2': "GDP per capita",
     'Grade_3': "GDP Growth",

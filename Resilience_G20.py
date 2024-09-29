@@ -165,7 +165,7 @@ elif section == 'COVID-19 Data':
     st.subheader("COVID-19 Deaths Data")
     st.dataframe(covid_deaths_data)
 
-    onfirmed_melted = covid_confirmed_data.reset_index().melt(id_vars='Country/Region', var_name='Date', value_name='Cases')
+    confirmed_melted = covid_confirmed_data.reset_index().melt(id_vars='Country/Region', var_name='Date', value_name='Cases')
     deaths_melted = covid_deaths_data.reset_index().melt(id_vars='Country/Region', var_name='Date', value_name='Deaths')
 
     # Plot for Confirmed Cases

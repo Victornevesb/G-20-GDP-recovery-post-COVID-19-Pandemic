@@ -320,6 +320,9 @@ elif section == 'Resilience Index':
     'Grade_6': "COVID Deaths"
     }
 
+    # Rename the columns in the dataframe
+    merged_df.rename(columns=grade_columns_map, inplace=True)
+    
     # Summing all grades for each country
     merged_df['Total Grade'] = merged_df[['Grade_1', 'Grade_2', 'Grade_3', 'Grade_4', 'Grade_5', 'Grade_6']].sum(axis=1)
     

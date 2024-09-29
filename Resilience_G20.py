@@ -163,6 +163,42 @@ elif section == 'COVID-19 Data':
     # Deaths Data
     st.subheader("COVID-19 Deaths Data")
     st.dataframe(covid_deaths_data)
+import matplotlib.pyplot as plt
+import pandas as pd
+import seaborn as sns
+
+
+    key_dates = ['2020-01-31', '2020-06-30', '2021-06-30', '2022-06-30', '2023-01-31']
+
+    # Filter confirmed cases and deaths data for the selected countries and dates
+    covid_confirmed_filtered = covid_confirmed_data[['Country/Region'] + key_dates]
+    covid_deaths_filtered = covid_deaths_data[['Country/Region'] + key_dates]
+
+    # Plot for confirmed COVID-19 cases
+    plt.figure(figsize=(12, 6))
+    for country in covid_confirmed_filtered['Country/Region']:
+        plt.plot(key_dates, covid_confirmed_filtered[covid_confirmed_filtered['Country/Region'] == country].values[0][1:], label=country)
+
+    plt.title('COVID-19 Confirmed Cases for G20 Countries')
+    plt.xlabel('Date')
+    plt.ylabel('Confirmed Cases')
+    plt.legend(loc='upper left', bbox_to_anchor=(1, 1))
+    plt.xticks(rotation=45)
+    plt.tight_layout()
+    plt.show()
+
+    # Plot for COVID-19 deaths
+    plt.figure(figsize=(12, 6))
+    for country in covid_deaths_filtered['Country/Region']:
+        plt.plot(key_dates, covid_deaths_filtered[covid_deaths_filtered['Country/Region'] == country].values[0][1:], label=country)
+
+    plt.title('COVID-19 Deaths for G20 Countries')
+    plt.xlabel('Date')
+    plt.ylabel('Deaths')
+    plt.legend(loc='upper left', bbox_to_anchor=(1, 1))
+    plt.xticks(rotation=45)
+    plt.tight_layout()
+    plt.show()
 
 # Section: Resilience Index
 elif section == 'Resilience Index':

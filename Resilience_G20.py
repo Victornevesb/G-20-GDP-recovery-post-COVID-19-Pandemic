@@ -315,7 +315,14 @@ elif section == 'Resilience Index':
 
     # Summing all grades for each country
     merged_df['Total Grade'] = merged_df[['Grade_1', 'Grade_2', 'Grade_3', 'Grade_4', 'Grade_5', 'Grade_6']].sum(axis=1)
-
+    grade_labels_map = {
+    1: "Nominal GDP",
+    2: "GDP per capita",
+    3: "GDP Growth",
+    4: "GDP Expenses",
+    5: "COVID Cases",
+    6: "COVID Deaths"
+    }
     # Streamlit App Layout
     st.title("Country Grade Dashboard")
 

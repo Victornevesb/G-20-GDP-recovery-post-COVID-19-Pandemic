@@ -318,7 +318,17 @@ elif section == 'Resilience Index':
 
 # Streamlit App Layout
     st.title("Country Grade Dashboard")
-
+    
+# Add explanation of the grades
+    st.markdown("""
+    ### Grades Explanation:
+    - **Grade 1** = Nominal GDP
+    - **Grade 2** = GDP per capita
+    - **Grade 3** = GDP Growth
+    - **Grade 4** = GDP Expenses
+    - **Grade 5** = COVID cases
+    - **Grade 6** = COVID deaths
+    """)
 # Sidebar for Navigation
     st.sidebar.title("Select Country and Grade")
 

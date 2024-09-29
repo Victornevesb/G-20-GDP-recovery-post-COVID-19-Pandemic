@@ -315,6 +315,7 @@ elif section == 'Resilience Index':
 
     # Summing all grades for each country
     merged_df['Total Grade'] = merged_df[['Grade_1', 'Grade_2', 'Grade_3', 'Grade_4', 'Grade_5', 'Grade_6']].sum(axis=1)
+    
     grade_labels_map = {
     1: "Nominal GDP",
     2: "GDP per capita",
@@ -323,6 +324,7 @@ elif section == 'Resilience Index':
     5: "COVID Cases",
     6: "COVID Deaths"
     }
+    
     # Streamlit App Layout
     st.title("Country Grade Dashboard")
 
@@ -382,6 +384,31 @@ elif section == 'Resilience Index':
         )
     }
 
+    st.plotly_chart(fig_grade_trend)
+
+    # Display Total Grade comparison
+    st.subheader("Total Resilience Comparison Across Countries")
+    total_grades = merged_df[['Country Name'] + [f'Grade_{i}' for i in range(1, selected_grade+1)]]
+    total_grades['Total'] = total_grades.iloc[:, 1:].sum(axis=1)
+    total_grades = total_grades.sort_values(by='Total', ascending=False)
+
+    trace_total = go.Bar(
+        x=total_grades['Country Name'],
+        y=total_grades['Total'],
+        name='Total Grade Comparison'
+    )
+
+    fig_total_grade = {
+        'data': [trace_total],
+        'layout': go.Layout(
+            title='Total Resilience Comparison Across Countries',
+            xaxis={'title': 'Country'},
+            yaxis={'title': 'Total Grade'},
+            hovermode='closest'
+        )
+    }
+
+    
     st.plotly_chart(fig_total_grade)
 
     

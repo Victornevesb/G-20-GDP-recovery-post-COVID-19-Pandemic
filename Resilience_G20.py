@@ -186,7 +186,11 @@ elif section == 'COVID-19 Data':
     ax.legend(bbox_to_anchor=(1.05, 1), loc='upper left')
     plt.xticks(rotation=45)
     plt.tight_layout()
-
+    fig.update_layout(
+        width=10000,  # Set the width of the plot
+        height=6000   # Set the height of the plot
+    )
+    
     st.pyplot(fig)
 
 # Section: Resilience Index

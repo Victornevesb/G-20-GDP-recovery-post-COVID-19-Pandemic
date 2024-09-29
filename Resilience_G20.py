@@ -4,6 +4,7 @@ import pickle
 import matplotlib.pyplot as plt
 import seaborn as sns
 import plotly.express as px
+import plotly.graph_objs as go
 
 # Load all the pickle files for each dataset
 with open('g20_population_data.pkl', 'rb') as f:
@@ -253,6 +254,130 @@ elif section == 'Resilience Index':
     # Display Resilience Data
     st.dataframe(resilience_data)
 
+    # Define the data
+    data1 = {
+        'Country Name': ['Argentina', 'Australia', 'Brazil', 'Canada', 'China', 'Germany', 'France', 'United Kingdom', 
+                         'Indonesia', 'India', 'Italy', 'Japan', 'South Korea', 'Mexico', 'Russia', 'Saudi Arabia', 
+                         'Turkey', 'United States', 'South Africa'],
+        'Grade': [10, 20, 20, 20, 80, 50, 30, 40, 20, 40, 30, 50, 20, 20, 20, 10, 10, 90, 10]
+    }
+
+    data2 = {
+        'Country Name': ['Argentina', 'Australia', 'Brazil', 'Canada', 'China', 'Germany', 'France', 'United Kingdom', 
+                         'Indonesia', 'India', 'Italy', 'Japan', 'South Korea', 'Mexico', 'Russia', 'Saudi Arabia', 
+                         'Turkey', 'United States', 'South Africa'],
+        'Grade': [80, 50, 40, 50, 60, 40, 30, 40, 50, 60, 40, 10, 20, 80, 60, 60, 90, 60, 10]
+    }
+
+    data3 = {
+        'Country Name': ['Argentina', 'Australia', 'Brazil', 'Canada', 'China', 'Germany', 'France', 'United Kingdom', 
+                         'Indonesia', 'India', 'Italy', 'Japan', 'South Korea', 'Mexico', 'Russia', 'Saudi Arabia', 
+                         'Turkey', 'United States', 'South Africa'],
+        'Grade': [20, 50, 90, 20, 20, 10, 20, 20, 30, 80, 80, 10, 20, 0, 60, 10, 100, 30, 90]
+    }
+
+    data4 = {
+        'Country Name': ['Argentina', 'Australia', 'Brazil', 'Canada', 'China', 'Germany', 'France', 'United Kingdom', 
+                         'Indonesia', 'India', 'Italy', 'Japan', 'South Korea', 'Mexico', 'Russia', 'Saudi Arabia', 
+                         'Turkey', 'United States', 'South Africa'],
+        'Grade': [20, 30, 20, 30, 100, 40, 30, 40, 30, 100, 40, 40, 40, 40, 30, 20, 20, 30, 20]
+    }
+
+    data5 = {
+        'Country Name': ['Argentina', 'Australia', 'Brazil', 'Canada', 'China', 'Germany', 'France', 'United Kingdom', 
+                         'Indonesia', 'India', 'Italy', 'Japan', 'South Korea', 'Mexico', 'Russia', 'Saudi Arabia', 
+                         'Turkey', 'United States', 'South Africa'],
+        'Grade': [40, 60, 40, 40, 100, 40, 40, 40, 60, 80, 40, 60, 60, 40, 40, 80, 40, 40, 40]
+    }
+
+    data6 = {
+        'Country Name': ['Argentina', 'Australia', 'Brazil', 'Canada', 'China', 'Germany', 'France', 'United Kingdom', 
+                         'Indonesia', 'India', 'Italy', 'Japan', 'South Korea', 'Mexico', 'Russia', 'Saudi Arabia', 
+                         'Turkey', 'United States', 'South Africa'],
+        'Grade': [20, 60, 40, 40, 100, 40, 40, 90, 40, 80, 40, 60, 60, 40, 40, 80, 40, 40, 40]
+    }
+
+    # Convert data to DataFrames
+    df1 = pd.DataFrame(data1)
+    df2 = pd.DataFrame(data2)
+    df3 = pd.DataFrame(data3)
+    df4 = pd.DataFrame(data4)
+    df5 = pd.DataFrame(data5)
+    df6 = pd.DataFrame(data6)
+
+    # Merging the dataframes on 'Country Name'
+    merged_df = df1.merge(df2, on='Country Name', suffixes=('_1', '_2')).merge(df3, on='Country Name') \
+        .merge(df4, on='Country Name', suffixes=('_3', '_4')).merge(df5, on='Country Name', suffixes=('_5', '_6')) \
+        .merge(df6, on='Country Name', suffixes=('_7', '_8'))
+
+    # Renaming the columns correctly
+    merged_df.columns = ['Country Name', 'Grade_1', 'Grade_2', 'Grade_3', 'Grade_4', 'Grade_5', 'Grade_6']
+
+    # Summing all grades for each country
+    merged_df['Total Grade'] = merged_df[['Grade_1', 'Grade_2', 'Grade_3', 'Grade_4', 'Grade_5', 'Grade_6']].sum(axis=1)
+
+    # Streamlit App Layout
+    st.title("Country Grade Dashboard")
+
+    # Sidebar for Navigation
+    st.sidebar.title("Select Country and Grade")
+
+    # Dropdown for selecting country
+    selected_country = st.sidebar.selectbox("Select Country", merged_df['Country Name'].unique())
+
+    # Slider for selecting grade datasets
+    selected_grade = st.sidebar.slider("Select Number of Grades", 1, 6, 6)
+
+    # Display Grade trends
+    st.subheader(f"Grades Trend for {selected_country}")
+    country_data = merged_df[merged_df['Country Name'] == selected_country]
+    grades = country_data.iloc[0, 1:selected_grade+1].values
+    grade_labels = [f'Grade {i}' for i in range(1, selected_grade+1)]
+
+    trace = go.Scatter(
+        x=grade_labels,
+        y=grades,
+        mode='lines+markers',
+        name=selected_country
+    )
+
+    fig_grade_trend = {
+        'data': [trace],
+        'layout': go.Layout(
+            title=f'Grades Trend for {selected_country}',
+            xaxis={'title': 'Grade Dataset'},
+            yaxis={'title': 'Grade'},
+            hovermode='closest'
+        )
+    }
+
+    st.plotly_chart(fig_grade_trend)
+
+    # Display Total Grade comparison
+    st.subheader("Total Resilience Comparison Across Countries")
+    total_grades = merged_df[['Country Name'] + [f'Grade_{i}' for i in range(1, selected_grade+1)]]
+    total_grades['Total'] = total_grades.iloc[:, 1:].sum(axis=1)
+    total_grades = total_grades.sort_values(by='Total', ascending=False)
+
+    trace_total = go.Bar(
+        x=total_grades['Country Name'],
+        y=total_grades['Total'],
+        name='Total Grade Comparison'
+    )
+
+    fig_total_grade = {
+        'data': [trace_total],
+        'layout': go.Layout(
+            title='Total Resilience Comparison Across Countries',
+            xaxis={'title': 'Country'},
+            yaxis={'title': 'Total Grade'},
+            hovermode='closest'
+        )
+    }
+
+    st.plotly_chart(fig_total_grade)
+
+    
     # Heatmap
     plt.figure(figsize=(12, 6))
     sns.heatmap(resilience_data.set_index('Country Name').T, annot=False, cmap='coolwarm', cbar_kws={'label': 'Grade'})

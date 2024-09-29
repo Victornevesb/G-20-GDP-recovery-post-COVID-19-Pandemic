@@ -74,7 +74,7 @@ if section == 'Population Data':
     )
 
     # Display the map
-    fig.show()
+    st.plotly_chart(fig)
 
     
     

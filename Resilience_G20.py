@@ -233,7 +233,7 @@ elif section == 'COVID-19 Data':
     )
 
 
-     fig_cases_map = px.choropleth(
+    fig_cases_map = px.choropleth(
         current_data,
         locations='Country',
         locationmode='country names',

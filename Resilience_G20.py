@@ -232,27 +232,6 @@ elif section == 'COVID-19 Data':
         }
     )
 
-
-    fig_cases_map = px.choropleth(
-        current_data,
-        locations='Country',
-        locationmode='country names',
-        color='Confirmed',
-        animation_frame='Date',
-        hover_name='Country',
-        color_continuous_scale=px.colors.sequential.Oranges,
-        title='Choropleth Map of Confirmed COVID-19 Cases Over Time'
-    )
-
-    # Adjust the layout of the figure
-    fig_cases_map.update_layout(
-        width=1000,  # Set the width of the plot
-        height=600   # Set the height of the plot
-    )
-
-    # Display the animated map in Streamlit
-    st.plotly_chart(fig_cases_map)
-
     # Update layout for the deaths plot
     fig_deaths.update_layout(
         xaxis_title='Date',

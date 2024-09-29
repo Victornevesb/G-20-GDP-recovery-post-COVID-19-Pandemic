@@ -311,26 +311,10 @@ elif section == 'Resilience Index':
         .merge(df6, on='Country Name', suffixes=('_7', '_8'))
 
     # Renaming the columns correctly
-    grade_columns_map = {
-    'Grade_1': "Nominal GDP",
-    'Grade_2': "GDP per capita",
-    'Grade_3': "GDP Growth",
-    'Grade_4': "GDP Expenses",
-    'Grade_5': "COVID Cases",
-    'Grade_6': "COVID Deaths"
-    }
-
+    merged_df.columns = ['Country Name', 'Nominal GDP', 'Grade_2', 'Grade_3', 'Grade_4', 'Grade_5', 'Grade_6']
+  
     # Rename the columns in the dataframe
     merged_df.rename(columns=grade_columns_map, inplace=True)
-
-    st.write("Columns after renaming:", merged_df.columns)
-
-# Ensure that the new columns are used for summing
-    try:
-        merged_df['Total Grade'] = merged_df[list(grade_columns_map.values())].sum(axis=1)
-    except KeyError as e:
-        st.error(f"KeyError: {e}")
-        st.write("Available columns in merged_df:", merged_df.columns)
 
     
 # Add Total Grade using the new column names

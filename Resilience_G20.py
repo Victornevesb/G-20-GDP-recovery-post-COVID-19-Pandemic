@@ -166,32 +166,39 @@ elif section == 'COVID-19 Data':
     st.dataframe(covid_deaths_data)
   
 
-    # Plot both cases and deaths for each country
-    countries = covid_confirmed_data.index.tolist()  # List of countries/regions
-    months = covid_confirmed_data.columns.tolist()   # List of months/dates
+    # Melt the data for easier plotting with Plotly
+    confirmed_melted = covid_confirmed_data.reset_index().melt(id_vars='Country/Region', var_name='Date', value_name='Cases')
+    deaths_melted = covid_deaths_data.reset_index().melt(id_vars='Country/Region', var_name='Date', value_name='Deaths')
 
-    fig, ax = plt.subplots(figsize=(12, 6))
+    # Merge both datasets for combined plotting
+    combined_data = pd.merge(confirmed_melted, deaths_melted, on=['Country/Region', 'Date'])
 
-    # Plotting cases
-    for country in countries:
-        ax.plot(months, covid_confirmed_data.loc[country], label=f'{country} Cases')
-
-    # Plotting deaths
-    for country in countries:
-        ax.plot(months, covid_deaths_data.loc[country], label=f'{country} Deaths', linestyle='--')
-
-    ax.set_xlabel("Date")
-    ax.set_ylabel("Number of Cases/Deaths")
-    ax.set_title("COVID-19 Cases and Deaths Over Time in G20 Countries")
-    ax.legend(bbox_to_anchor=(1.05, 1), loc='upper left')
-    plt.xticks(rotation=45)
-    plt.tight_layout()
-    fig.update_layout(
-        width=10000,  # Set the width of the plot
-        height=6000   # Set the height of the plot
+    # Plot using Plotly Express
+    fig = px.line(
+        combined_data,
+        x='Date',
+        y=['Cases', 'Deaths'],
+        color='Country/Region',
+        title='COVID-19 Cases and Deaths in G20 Countries',
+        labels={
+            'value': 'Count',
+            'Date': 'Date',
+            'Country/Region': 'Country',
+            'variable': 'Metric'
+        }
     )
-    
-    st.pyplot(fig)
+
+    # Update layout for better readability
+    fig.update_layout(
+        xaxis_title='Date',
+        yaxis_title='Count',
+        width=1000,
+        height=600,
+        legend_title="Country/Region",
+        legend=dict(x=1, y=1)
+    )
+
+    st.plotly_chart(fig)
 
 # Section: Resilience Index
 elif section == 'Resilience Index':

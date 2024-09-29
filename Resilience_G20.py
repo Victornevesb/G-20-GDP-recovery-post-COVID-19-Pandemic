@@ -311,7 +311,7 @@ elif section == 'Resilience Index':
         .merge(df6, on='Country Name', suffixes=('_7', '_8'))
 
     # Renaming the columns correctly
-    merged_df.columns = ['Country Name', 'Nominal GDP', 'Grade_2', 'Grade_3', 'Grade_4', 'Grade_5', 'Grade_6']
+    merged_df.columns = ['Country Name', 'Grade_1', 'Grade_2', 'Grade_3', 'Grade_4', 'Grade_5', 'Grade_6']
   
     # Rename the columns in the dataframe
     merged_df.rename(columns=grade_columns_map, inplace=True)

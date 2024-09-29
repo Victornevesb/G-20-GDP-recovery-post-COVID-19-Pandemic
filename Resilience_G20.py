@@ -254,7 +254,7 @@ elif section == 'Resilience Index':
     # Display Resilience Data
     st.dataframe(resilience_data)
 
-    # Define the data
+# Define the data
     data1 = {
         'Country Name': ['Argentina', 'Australia', 'Brazil', 'Canada', 'China', 'Germany', 'France', 'United Kingdom', 
                          'Indonesia', 'India', 'Italy', 'Japan', 'South Korea', 'Mexico', 'Russia', 'Saudi Arabia', 
@@ -283,12 +283,12 @@ elif section == 'Resilience Index':
         'Grade': [20, 30, 20, 30, 100, 40, 30, 40, 30, 100, 40, 40, 40, 40, 30, 20, 20, 30, 20]
     }
 
-    data5 = {
-        'Country Name': ['Argentina', 'Australia', 'Brazil', 'Canada', 'China', 'Germany', 'France', 'United Kingdom', 
-                         'Indonesia', 'India', 'Italy', 'Japan', 'South Korea', 'Mexico', 'Russia', 'Saudi Arabia', 
-                         'Turkey', 'United States', 'South Africa'],
-        'Grade': [40, 60, 40, 40, 100, 40, 40, 40, 60, 80, 40, 60, 60, 40, 40, 80, 40, 40, 40]
-    }
+data5 = {
+    'Country Name': ['Argentina', 'Australia', 'Brazil', 'Canada', 'China', 'Germany', 'France', 'United Kingdom', 
+                     'Indonesia', 'India', 'Italy', 'Japan', 'South Korea', 'Mexico', 'Russia', 'Saudi Arabia', 
+                     'Turkey', 'United States', 'South Africa'],
+    'Grade': [40, 60, 40, 40, 100, 40, 40, 40, 60, 80, 40, 60, 60, 40, 40, 80, 40, 40, 40]
+}
 
     data6 = {
         'Country Name': ['Argentina', 'Australia', 'Brazil', 'Canada', 'China', 'Germany', 'France', 'United Kingdom', 
@@ -305,20 +305,16 @@ elif section == 'Resilience Index':
     df5 = pd.DataFrame(data5)
     df6 = pd.DataFrame(data6)
 
-    # Merging the dataframes on 'Country Name'
+# Merging the dataframes on 'Country Name'
     merged_df = df1.merge(df2, on='Country Name', suffixes=('_1', '_2')).merge(df3, on='Country Name') \
         .merge(df4, on='Country Name', suffixes=('_3', '_4')).merge(df5, on='Country Name', suffixes=('_5', '_6')) \
         .merge(df6, on='Country Name', suffixes=('_7', '_8'))
 
-    # Renaming the columns correctly
+# Renaming the columns correctly
     merged_df.columns = ['Country Name', 'Grade_1', 'Grade_2', 'Grade_3', 'Grade_4', 'Grade_5', 'Grade_6']
-  
-    # Rename the columns in the dataframe
-    merged_df.rename(columns=grade_columns_map, inplace=True)
 
-    
-# Add Total Grade using the new column names
-    merged_df['Total Grade'] = merged_df[list(grade_columns_map.values())].sum(axis=1)
+# Summing all grades for each country
+    merged_df['Total Grade'] = merged_df[['Grade_1', 'Grade_2', 'Grade_3', 'Grade_4', 'Grade_5', 'Grade_6']].sum(axis=1)
 
 # Streamlit App Layout
     st.title("Country Grade Dashboard")
@@ -332,16 +328,14 @@ elif section == 'Resilience Index':
 # Slider for selecting grade datasets
     selected_grade = st.sidebar.slider("Select Number of Grades", 1, 6, 6)
 
-# Get the subset of the column names based on the number of grades selected
-    selected_grade_columns = list(grade_columns_map.values())[:selected_grade]
-
 # Display Grade trends
     st.subheader(f"Grades Trend for {selected_country}")
     country_data = merged_df[merged_df['Country Name'] == selected_country]
-    grades = country_data[selected_grade_columns].values.flatten()
+    grades = country_data.iloc[0, 1:selected_grade+1].values
+    grade_labels = [f'Grade {i}' for i in range(1, selected_grade+1)]
 
     trace = go.Scatter(
-        x=selected_grade_columns,
+        x=grade_labels,
         y=grades,
         mode='lines+markers',
         name=selected_country
@@ -361,8 +355,8 @@ elif section == 'Resilience Index':
 
 # Display Total Grade comparison
     st.subheader("Total Resilience Comparison Across Countries")
-    total_grades = merged_df[['Country Name'] + selected_grade_columns]
-    total_grades['Total'] = total_grades[selected_grade_columns].sum(axis=1)
+    total_grades = merged_df[['Country Name'] + [f'Grade_{i}' for i in range(1, selected_grade+1)]]
+    total_grades['Total'] = total_grades.iloc[:, 1:].sum(axis=1)
     total_grades = total_grades.sort_values(by='Total', ascending=False)
 
     trace_total = go.Bar(
@@ -382,6 +376,7 @@ elif section == 'Resilience Index':
     }
 
     st.plotly_chart(fig_total_grade)
+
     
     
     # Heatmap
